@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+</head>
+<body>
+    <h1>Currency Converter</h1>
+    <form method="post">
+        <label for="amount">Enter amount:</label>
+        <input type="number" name="amount" id="amount" required>
+        <br><br>
+
+        <label for="conversion_type">Convert from:</label>
+        <select name="conversion_type" id="conversion_type">
+            <option value="usd_to_ksh">USD to KSH</option>
+            <option value="ksh_to_usd">KSH to USD</option>
+        </select>
+        <br><br>
+
+        <input type="submit" value="Convert">
+    </form>
+
+    <?php
+    function convertUsdToKsh($amount) {
+        $usd_to_ksh_rate = 120;  // 1 USD = 120 KSH (update this rate as necessary)
+        return $amount * $usd_to_ksh_rate;
+    }
+
+    function convertKshToUsd($amount) {
+        $ksh_to_usd_rate = 1 / 120;  // 1 KSH = 1/120 USD
+        return $amount * $ksh_to_usd_rate;
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $amount = $_POST['amount'];
+        $conversion_type = $_POST['conversion_type'];
+        if ($conversion_type == "usd_to_ksh") {
+            $converted_amount = convertUsdToKsh($amount);
+            echo "<h2>{$amount} USD is equal to {$converted_amount} KSH</h2>";
+        } elseif ($conversion_type == "ksh_to_usd") {
+            $converted_amount = convertKshToUsd($amount);
+            echo "<h2>{$amount} KSH is equal to {$converted_amount} USD</h2>";
+        }
+    }
+    ?>
+</body>
+</html>

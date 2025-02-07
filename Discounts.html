@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Discount Calculator</title>
+</head>
+<body>
+    <?php
+.
+function getDiscountPercent($amount) {
+    if ($amount >= 30000) {
+        return 29;
+    } elseif ($amount >= 25000 && $amount <= 29999) {
+        return 20;
+    } elseif ($amount >= 15000 && $amount <= 24999) {
+        return 15;
+    } elseif ($amount >= 10000 && $amount <= 14999) {
+        return 10;
+    } else {
+        return 0; // No discount for amounts less than 10000.
+    }
+}
+
+function calculate_amout_paid($amount) {
+    $discountPercent = getDiscountPercent($amount);
+    $discountAmount = ($discountPercent / 100) * $amount;
+    $finalAmount = $amount - $discountAmount;
+    return array(
+        "discountPercent" => $discountPercent,
+        "discountAmount"  => $discountAmount,
+        "finalAmount"     => $finalAmount
+    );
+}
+?>
+
+<?php
+if (isset($_POST['submit'])) {
+    $amount = $_POST['amount'];
+    if (!is_numeric($amount)) {
+        echo "<p>Please enter a valid numeric amount.</p>";
+    } else {
+        $amount = floatval($amount);
+        $results = calculate_amount_paid($amount);
+        echo "<h2>Calculation Result</h2>";
+        echo "<p>Original Amount: " . number_format($amount, 2) . "</p>";
+        echo "<p>Discount Percentage: " . $results['discountPercent'] . "%</p>";
+        echo "<p>Discount Amount: " . number_format($results['discountAmount'], 2) . "</p>";
+        echo "<p>Final Amount to Pay: " . number_format($results['finalAmount'], 2) . "</p>";
+    }
+}
+?>
+
+<h2>Enter Amount Spent by customer</h2>
+<form method="post" action="">
+    <label for="amount">Amount Spent:</label>
+    <input type="text" name="amount" id="amount" required>
+    <br><br>
+    <input type="submit" name="submit" value="Calculate">
+</form>
+
+</body>
+</html>

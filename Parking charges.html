@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Parking Charges</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .total {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align: center;">Parking Charges Calculation</h2>
+
+<?php
+function calculateCharges($hours) {
+    $base_fee = 200;
+    $additional_fee_per_hour = 50;
+    $max_charge = 1000;
+
+    if ($hours <= 3) {
+        $charge = $base_fee;
+    } else {
+        $additional_hours = ceil($hours - 3); // round up for partial hours
+        $charge = $base_fee + ($additional_hours * $additional_fee_per_hour);
+    }
+
+    if ($charge > $max_charge) {
+        $charge = $max_charge;
+    }
+
+    return $charge;
+}
+$total_receipts = 0;
+$customers = [];
+$hours_parked = [2.5, 5, 8]; // Example: hours for three customers (you can change this)
+
+for ($i = 0; $i < 3; $i++) {
+    $charge = calculateCharges($hours_parked[$i]);
+    $customers[] = [
+        'customer' => 'Customer ' . ($i + 1),
+        'hours' => $hours_parked[$i],
+        'charge' => $charge
+    ];
+    $total_receipts += $charge;
+}
+?>
+
+<table>
+    <tr>
+        <th>Customer</th>
+        <th>Hours Parked</th>
+        <th>Charge (Ksh.)</th>
+    </tr>
+    <?php foreach ($customers as $customer): ?>
+        <tr>
+            <td><?= $customer['customer'] ?></td>
+            <td><?= $customer['hours'] ?></td>
+            <td><?= number_format($customer['charge'], 2) ?></td>
+        </tr>
+    <?php endforeach; ?>
+    <tr class="total">
+        <td colspan="2">Total Receipts</td>
+        <td><?= number_format($total_receipts, 2) ?></td>
+    </tr>
+</table>
+
+</body>
+</html>
