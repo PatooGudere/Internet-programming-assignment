@@ -1,0 +1,38 @@
+<?php
+$books = [
+    [
+        "title" => "Blossoms of the Savannah",
+        "author" => "Henry R. Ole Kulet",
+        "quantity" => 12
+    ],
+    [
+        "title" => "Kidagaa Kimemwozea",
+        "author" => "Ken Walibora",
+        "quantity" => 3
+    ],
+    [
+        "title" => "My life in crime",
+        "author" => "John Kiriamiti",
+        "quantity" => 3
+    ]
+];
+echo "<h2>Book Inventory</h2>";
+echo "<table border='1' cellpadding='10'>";
+echo "<tr><th>Title</th><th>Author</th><th>Quantity</th></tr>";
+
+foreach ($books as $book) {
+    echo "<tr>";
+    echo "<td>{$book['title']}</td>";
+    echo "<td>{$book['author']}</td>";
+    
+    if ($book['quantity'] > 0) {
+        echo "<td>In Stock ({$book['quantity']} available)</td>";
+    } else {
+        echo "<td>Out of Stock</td>";
+    }
+
+    echo "</tr>";
+}
+
+echo "</table>";
+?>
